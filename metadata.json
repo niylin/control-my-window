@@ -1,0 +1,11 @@
+{
+  "uuid": "control-my-window@niylin.github.io",
+  "name": "Control My Window",
+  "description": "Manage your windows: auto-hide unfocused apps, remember window positions, and pin apps to all workspaces.",
+  "shell-version": [
+    "50"
+  ],
+  "url": "https://github.com/niylin/control-my-window",
+  "settings-schema": "org.gnome.shell.extensions.control-my-window",
+  "version": 1
+}

@@ -1,0 +1,29 @@
+<schemalist>
+  <schema id="org.gnome.shell.extensions.control-my-window" path="/org/gnome/shell/extensions/control-my-window/">
+    <key name="tracked-apps" type="as">
+      <default>[]</default>
+      <summary>Tracked Applications</summary>
+      <description>List of app IDs to auto minimize</description>
+    </key>
+    <key name="running-apps" type="as">
+      <default>[]</default>
+      <summary>Running Applications</summary>
+      <description>List of currently running app IDs</description>
+    </key>
+    <key name="stick-apps" type="as">
+      <default>[]</default>
+      <summary>Stick Applications</summary>
+      <description>List of app IDs to keep on all workspaces</description>
+    </key>
+    <key name="remember-apps" type="as">
+      <default>[]</default>
+      <summary>Remember Applications</summary>
+      <description>List of app IDs to remember position and workspace</description>
+    </key>
+    <key name="saved-positions" type="as">
+      <default>[]</default>
+      <summary>Saved Positions</summary>
+      <description>Saved window positions (appId|x|y|workspace)</description>
+    </key>
+  </schema>
+</schemalist>
