@@ -2,6 +2,7 @@ import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import GLib from 'gi://GLib';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 export default class ControlMyWindowExtension extends Extension {
     enable() {
@@ -10,6 +11,7 @@ export default class ControlMyWindowExtension extends Extension {
         this._trackedApps = new Set(this._settings.get_strv('tracked-apps'));
         this._stickApps = new Set(this._settings.get_strv('stick-apps'));
         this._rememberApps = new Set(this._settings.get_strv('remember-apps'));
+        this._focusApps = new Set(this._settings.get_strv('focus-apps'));
         this._windowSignals = new Map();
         this._pendingWindowTimeouts = new Map();
 
@@ -23,6 +25,16 @@ export default class ControlMyWindowExtension extends Extension {
             } else if (key === 'remember-apps') {
                 this._rememberApps = new Set(this._settings.get_strv('remember-apps'));
                 this._applyAllSettings();
+            } else if (key === 'focus-apps') {
+                this._focusApps = new Set(this._settings.get_strv('focus-apps'));
+            }
+        });
+
+        this._windowDemandsAttentionId = global.display.connect('window-demands-attention', (display, window) => {
+            if (this._shouldActivateWindow(window)) {
+                try {
+                    Main.activateWindow(window);
+                } catch (e) {}
             }
         });
 
@@ -65,6 +77,11 @@ export default class ControlMyWindowExtension extends Extension {
             this._windowCreatedId = null;
         }
 
+        if (this._windowDemandsAttentionId) {
+            global.display.disconnect(this._windowDemandsAttentionId);
+            this._windowDemandsAttentionId = null;
+        }
+
         if (this._settingsChangedId) {
             this._settings.disconnect(this._settingsChangedId);
             this._settingsChangedId = null;
@@ -100,6 +117,7 @@ export default class ControlMyWindowExtension extends Extension {
         this._trackedApps = null;
         this._stickApps = null;
         this._rememberApps = null;
+        this._focusApps = null;
         this._appSystem = null;
     }
 
@@ -207,6 +225,14 @@ export default class ControlMyWindowExtension extends Extension {
         } catch (e) {
             return null;
         }
+    }
+
+    _shouldActivateWindow(window) {
+        if (!this._enabled || !this._isNormalWindow(window))
+            return false;
+
+        const appId = this._getWindowAppId(window);
+        return !!appId && this._focusApps.has(appId);
     }
 
     _trackWindowPosition(window, appId) {

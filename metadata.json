@@ -1,7 +1,7 @@
 {
   "uuid": "control-my-window@niylin.github.io",
   "name": "Control My Window",
-  "description": "Manage your windows: auto-hide unfocused apps, remember window positions, and pin apps to all workspaces.",
+  "description": "Manage your windows: auto-hide unfocused apps, focus attention-demanding windows, remember positions, and pin apps to all workspaces.",
   "shell-version": [
     "50"
   ],

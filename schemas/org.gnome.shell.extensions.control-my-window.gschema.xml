@@ -20,6 +20,11 @@
       <summary>Remember Applications</summary>
       <description>List of app IDs to remember position and workspace</description>
     </key>
+    <key name="focus-apps" type="as">
+      <default>[]</default>
+      <summary>Focus Applications</summary>
+      <description>List of app IDs to activate when they demand attention</description>
+    </key>
     <key name="saved-positions" type="as">
       <default>[]</default>
       <summary>Saved Positions</summary>
